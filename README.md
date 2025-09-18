@@ -2,61 +2,61 @@
 
 ## Project Overview
 
-This project is an entry for the [WiDS (Women in Data Science) Datathon 2023](https://www.widsconference.org/datathon/). The primary objective is to improve sub-seasonal weather forecasts by blending physics-based models with machine learning. Accurate forecasts for weather conditions 15-45 days out are crucial for helping communities and industries adapt to the challenges posed by extreme weather events and climate change.
+This is an entry for the [WiDS (Women in Data Science) Datathon 2023](https://www.widsconference.org/datathon/). The key objective is to improve sub-seasonal forecasting of weather through the combination of physics-based models and machine learning. Accurate predictions of weather 15-45 days ahead are exceedingly valuable for allowing communities and businesses to manage the effects of extreme climate and weather.
 
-The specific task is to predict the arithmetic mean of the maximum and minimum temperature over a 14-day period for various locations across the United States.
+The specific task is to predict the arithmetic mean of the high and low temperature for 14 days over various geographies in the United States.
 
 ## Methodology
 
-The solution is developed in a single Jupyter Notebook (`main.ipynb`) and follows a standard data science workflow:
+The code is all in one Jupyter Notebook (`main.ipynb`) and follows a standard data science workflow:
 
-1.  **Data Loading:** The training (`train_data.csv`) and testing (`test_data.csv`) datasets are loaded using `pandas`.
+1.  **Data Loading:** The training (`train_data.csv`) and test (`test_data.csv`) datasets are loaded using `pandas`.
 
 2.  **Data Cleaning & Preprocessing:**
-    * **Missing Value Imputation:** A systematic approach is taken to handle missing values. Numerical features are imputed with their **median**, while categorical features are filled with their **mode**. This ensures that the model receives a complete dataset for training.
-    * **Data Type Conversion:** The `startdate` column is converted to a proper `datetime` object to enable time-based feature extraction.
+* **Missing Value Imputation:** Missing values are handled systematically. Numerical features are imputed with their **median**, and categorical features are replaced with their **mode**. This provides the model with a complete dataset to train on.
+* **Data Type Conversion:** The `startdate` column is converted to a correct `datetime` object to enable time-based feature extraction.
 
 3.  **Feature Engineering:**
-    * New features are created from the `startdate` to help the model better understand seasonality (e.g., `month`, `day_of_year`).
-    * Cyclical features (`sin_day_of_year`, `cos_day_of_year`) are generated from the day of the year to effectively represent its cyclical nature to the tree-based model.
-    * The categorical feature `climateregions__climateregion` is one-hot encoded to be used in the model.
+* New features are obtained from the `startdate` to allow the model to learn seasonality more effectively (e.g., `month`, `day_of_year`).
+    * Cyclical features (`sin_day_of_year`, `cos_day_of_year`) are derived from the day of the year so that it can accurately present its cyclical nature to the tree-based model.
+    * Categorical feature `climateregions__climateregion` is one-hot encoded for use in the model.
 
 4.  **Modeling:**
-    * **Model Selection:** A **LightGBM (Light Gradient Boosting Machine)** regressor is chosen for this task. It is a powerful, efficient, and highly effective algorithm for tabular data and is a frequent choice in top-performing competition solutions.
-    * **Training & Validation:** The data is split into training and validation sets. The model is trained on the training set and uses the validation set for early stopping, which prevents overfitting and helps find the optimal number of boosting rounds.
+* **Model Selection:** A **LightGBM (Light Gradient Boosting Machine)** regressor is chosen here. It is a fast, effective, and strong algorithm for tabular data and one of the top-performing competition solution options.
+* **Training & Validation:** The data is split into training and validation sets. The model is trained using the training set and the validation set is utilized for early stopping, which prevents overfitting and decides on the optimal number of boosting rounds.
 
 5.  **Prediction & Submission:**
     * The trained model is used to make predictions on the preprocessed test dataset.
-    * The final predictions are formatted into a `submission.csv` file with two columns (`index` and `contest-tmp2m-14d__tmp2m`), as required by the competition rules.
+* The final predictions are organized into a `submission.csv` file with two columns (`index` and `contest-tmp2m-14d__tmp2m`) as competition rules demand.
 
 ## Getting Started
 
 ### Prerequisites
 
-Ensure you have Python 3 installed. The required libraries for this project can be installed via pip:
+Ensure you have Python 3 installed. The used libraries in this project can be installed via pip:
 
 ```bash
 pip install pandas numpy scikit-learn lightgbm matplotlib seaborn jupyter
 ```
 Usage
-Launch Jupyter Notebook or JupyterLab.
+Open Jupyter Notebook or JupyterLab.
 
 Open main.ipynb.
 
-Run the cells sequentially from top to bottom.
+Run the cells from top to bottom.
 
-Upon successful execution, a submission.csv file will be generated in the project directory.
+After successful execution, a submission.csv file will be generated in the project root directory.
 
 Results
-The primary output of this project is the submission.csv file, which contains the predicted mean temperatures for each entry in the test set. The model's performance is evaluated against a hidden test set on the competition platform using the Root Mean Squared Error (RMSE) metric.
+The primary result of this project is the submission.csv file containing the predicted mean temperatures for all records in the test set. Model performance is verified against a hidden test set on the competition website using the Root Mean Squared Error (RMSE) metric.
 
 Future Work
-To further improve the model's performance, the following steps could be explored:
+To further enhance the performance of the model, the following can be attempted:
 
-Hyperparameter Tuning: Use techniques like Grid Search, Random Search, or Bayesian Optimization to find the optimal set of parameters for the LightGBM model.
+Hyperparameter Tuning: Use techniques like Grid Search, Random Search, or Bayesian Optimization to find the optimal parameters for the LightGBM model.
 
-Advanced Feature Engineering: Explore interactions between features (e.g., temperature and location) or incorporate more complex climate data.
+Feature Engineering: Explore feature interactions (e.g., location and temperature) or incorporate additional advanced climate data.
 
-Cross-Validation: Implement a more robust cross-validation strategy (e.g., K-Fold or Time-Series Split) for a better estimate of the model's generalization performance.
+Cross-Validation: Employ a more sophisticated cross-validation technique (e.g., Time-Series Split or K-Fold) to have a better estimate of the model generalization performance.
 
-Ensemble Modeling: Combine predictions from multiple different models (e.g., XGBoost, CatBoost, or Neural Networks) to potentially achieve a more accurate and robust final prediction.
+Ensemble Modeling: Make predictions from many different models (such as XGBoost, CatBoost, or Neural Networks) and potentially end up with a more precise and robust final prediction.
